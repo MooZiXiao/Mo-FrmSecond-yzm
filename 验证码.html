@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>验证码</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        div#code{
+            display: inline-block;
+            width:80px;
+            height:30px;
+            line-height: 30px;
+            border:1px solid #f1f1f1;
+            background-color: rgb(233,100,72);
+            color: #fff;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 5px;
+        }
+        div#showCode{
+            display: inline-block;
+            background-color: #fff;
+            border:0;
+            text-decoration: underline;
+            cursor: pointer;
+            outline: none;
+        }
+    </style>
+</head>
+<body>
+    <form action="">
+        <div class="box">
+            验证码：<input type="text" id="cinCode"><div id="code"></div>
+            <div id="showCode">看不清，点击重新获取</div>
+            <!-- <button id="showCode">看不清，点击重新获取</button> -->
+            <button id="submit">提交</button>
+        </div>
+    </form>
+</body>
+<script>
+    //设置获取验证码的个数
+    var codeLength=4;
+    //设置验证码数值
+    var codeArr=['0','1','2','3','4','5','6','7','8','9','a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+    //
+    var getcinCode=document.getElementById("cinCode");
+    var getcode=document.getElementById("code");
+    var getshowCode=document.getElementById("showCode");
+    
+    //创建函数来获取验证码
+    function getCode(){
+        //设置code变量来获取四位验证码
+        var codee="";
+        //循环获取四位数
+        for(var i=0; i<codeLength; i++){
+            //获取随机数index
+            var radIndex=Math.floor(Math.random()*codeArr.length);
+            codee += codeArr[radIndex];
+        }
+        // console.log(codee);
+        //将code的值赋给getcode，即在id=code的标签上显示数值
+        getcode.innerHTML=codee;
+    }
+    //getshowCode.onclick=getCode();
+    getshowCode.onclick=function(){ 
+        getCode();
+    }
+    
+    //当用户提交时效验验证码
+    var getBtn=document.getElementById("submit");
+    function checkSub(){
+        var setCode=getcode.innerHTML.toUpperCase();
+        var setcinCode=getcinCode.value.toUpperCase();
+        // console.log(setCode);
+        if(setcinCode==setCode){
+            alert("验证成功");
+        }else{
+            alert("验证失败");
+        }
+    }
+    // getBtn.onclick=checkSub();
+    getBtn.onclick=function(){
+        // e.preventDefult();//阻止冒泡
+        // event.stopPropagation();
+        // return false;//阻止form表单button提交自动刷新
+        checkSub();
+    }
+    // load赋值
+    window.onload=function(){
+        getCode();
+    }
+</script>
+</html>

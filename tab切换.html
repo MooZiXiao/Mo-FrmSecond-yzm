@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>tab切换</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        .tab {
+            width: 800px;
+            height: 32px;
+            background-color: rgb(233, 84, 100);
+            line-height: 32px;
+            text-align: center;
+            color: #fff;
+        }
+
+        .tab ul li {
+            float: left;
+            width: 20%;
+            cursor: pointer;
+        }
+
+        .tab ul li:hover {
+            /* background-color: gray; */
+        }
+
+        .tabBox [id^="tab"] {
+            display: none;
+            height: 200px;
+            background-color: green;
+            margin-bottom: 5px;
+        }
+
+        .active {
+            background-color: gray;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="tab">
+            <ul>
+                <li class="active"><a href="#">tab1</a></li>
+                <li><a href="#">tab2</a></li>
+                <li><a href="#">tab3</a></li>
+            </ul>
+        </div>
+        <div class="tabBox" id="tabBox">
+            <div id="tab1" style="display:block">tab1</div>
+            <div id="tab2">tab2</div>
+            <div id="tab3">tab3</div>
+        </div>
+    </div>
+</body>
+<script>
+    var tabMenu = document.getElementsByTagName("li");
+    var tab = document.getElementById("tabBox").getElementsByTagName("div");
+    //创建函数通过实参tabMenu,tab来调用函数tabFa
+    function tabFa(btn, list) {
+        //通过循环，获取tabMenu的索引i
+        for (var i = 0; i < btn.length; i++) {
+            btn[i].index = i;
+            //设置鼠标经过时tabMenu和tab的样式变化
+            btn[i].onmouseover = function () {
+                for (var j = 0; j < btn.length; j++) {
+                    btn[j].classList.remove("active");
+                    list[j].style.display = "none";
+                    btn[this.index].classList.add("active");
+                    list[this.index].style.display = "block";
+                }
+            }
+        }
+    }
+    tabFa(tabMenu, tab);
+</script>
+
+</html>

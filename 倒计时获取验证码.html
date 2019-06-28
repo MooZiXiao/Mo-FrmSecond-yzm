@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>倒计时获取验证码</title>
+</head>
+<body>
+    <input type="button" value="发送验证码" id="getBtn">
+</body>
+<script>
+    var getInput=document.getElementById("getBtn");
+    //监听
+    getInput.addEventListener("click",function(){
+        //设置倒计时时间
+        var num=10;
+        //设置定时器
+        var timer=setInterval(function(){
+            num--;
+            //将num赋值给input
+            getInput.value=num;
+            //设置在倒计时input无法点击
+            getInput.disabled=true;
+            if(num===0){
+                //清除定时器
+                clearInterval(timer);
+                getInput.value="发送验证码";
+                getInput.disabled=false;
+            }
+        },1000);//倒计时时间
+    });
+    window.onload=function(){
+        getInput;
+    }
+</script>
+</html>
