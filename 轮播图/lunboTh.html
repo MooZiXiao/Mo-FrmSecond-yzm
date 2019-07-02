@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播图</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        a {}
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper {
+            width: 540px;
+            height: 350px;
+            margin: 20px auto;
+            overflow: hidden;
+            /* position: relative; */
+        }
+
+        .swiper-pic {
+            width: 450px;
+            float: left;
+            /* position: relative; */
+        }
+
+        .swiper-pic li {
+            position: absolute;
+            width: 450px;
+            height: 350px;
+            transform-origin: top center;
+            transition: opacity 3s;
+            background-color: rgba(0,0,0,.3);
+        }
+
+        .swiper-pic li:nth-child(1) {
+            z-index: 1;
+        }
+        .swiper-pic {}
+
+        /* 焦点样式 */
+        .swiper-dot {
+            float: right;
+            width: 80px;
+            padding: 6px 5px 5px 5px;
+            background-color: rgba(203, 80, 2, .4);
+        }
+
+        .swiper-dot ul li {
+            width: 80px;
+            height: 80.5px;
+            margin-bottom: 5px;
+            background-color: rgb(233, 80, 22);
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        /* 焦点激活样式 */
+        .active {
+            background-color: rgb(233, 2, 177) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="swiper">
+        <div class="swiper-pic">
+            <ul>
+                <li><a href="#"><img src="../images/lunbo/lunbo1.webp" alt=""></a></li>
+                <li><a href="#"><img src="../images/lunbo/lunbo2.webp" alt=""></a></li>
+                <li><a href="#"><img src="../images/lunbo/lunbo3.jpg" alt=""></a></li>
+                <li><a href="#"><img src="../images/lunbo/lunbo4.webp" alt=""></a></li>
+            </ul>
+        </div>
+        <!-- 焦点可以用图片代替 -->
+        <div class="swiper-dot">
+            <ul>
+                <li class="active"></li>
+                <li></li>
+                <li></li>
+                <li></li>
+            </ul>
+        </div>
+    </div>
+</body>
+<script>
+
+    //querySelector 函数
+    function getQS(qs) {
+        return (typeof (qs) === "string") ? document.querySelector(qs) : qs;
+    }
+    // 
+    // console.log(getPicLi);
+    //构造轮播图函数
+    function MySwiper() {
+        //获取swiper-pic
+        var getSwiperPic = getQS(".swiper-pic");
+        //获取图片的li
+        var getPicLi = document.querySelector(".swiper-pic").getElementsByTagName("li");
+        //获取焦点的li
+        var getDotLi = document.querySelector(".swiper-dot").getElementsByTagName("li");
+
+        //设置初始index
+        var index = 0;
+        //设置初始 timer
+        var timer = 0;
+
+        //切换图片
+        function changePic() {
+            //获取图片
+            for (var i = 0; i < getPicLi.length; i++) {
+                //排除所有li的opacity
+                getPicLi[i].style.opacity = "0";
+                // getPicLi[i].style.height="0";
+                getDotLi[i].classList.remove("active");
+            }
+            getPicLi[index].style.opacity = "1";
+            // getPicLi[index].style.height="350px";
+            getDotLi[index].classList.add("active");
+        }
+
+        //自动播放
+        function autoPlay() {
+            timer = setInterval(function () {
+                index++;
+                if (index === getPicLi.length) {
+                    index = 0;
+                }
+                changePic();
+            }, 3500);
+        }
+        //自动播放
+        this.autoPlayPic = function () {
+            autoPlay();
+        }
+
+        //清除时间
+        function stopPlay() {
+            clearInterval(timer);
+        }
+
+        //鼠标移入swiper-pic轮播暂停
+        this.pasuePlay = function () {
+            getSwiperPic.addEventListener("mouseover", function () {
+                stopPlay();
+            })
+        }
+
+        //鼠标移出swiper-pic轮播开始
+        this.continuePlay = function () {
+            getSwiperPic.addEventListener("mouseout", function () {
+                autoPlay();
+            })
+        }
+
+        //设置焦点
+        this.dotPlay = function () {
+            //获取各个焦点
+            for (var i = 0; i < getDotLi.length; i++) {
+                getDotLi[i].index = i;
+                //鼠标移到li的事件
+                getDotLi[i].addEventListener("mouseover", function () {
+                    //
+                    index = this.index;
+                    //当鼠标放到li切换到对应图片
+                    changePic();
+                    //要记得清除定时器
+                    stopPlay();
+                })
+                //鼠标移出li的事件
+                getDotLi[i].addEventListener("mouseout",function(){
+                    autoPlay();
+                })
+            }
+
+        }
+    }
+
+    //window
+    window.addEventListener("load", function () {
+        var mySwiper = new MySwiper();
+        mySwiper.autoPlayPic();
+        mySwiper.pasuePlay();
+        mySwiper.continuePlay();
+        mySwiper.dotPlay();
+    })
+</script>
+
+</html>
